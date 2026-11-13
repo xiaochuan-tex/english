@@ -47,6 +47,12 @@ jobs:
             fontconfig
 
           fc-cache -fv
+      - name: Verify font installation
+        run: |
+          fc-match "Times New Roman"
+          fc-match "Times New Roman:style=Bold"
+          fc-match "Noto Serif CJK SC"
+          fc-match "Noto Sans CJK SC"
 
       - name: Compile LaTeX
         run: |
