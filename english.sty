@@ -1,0 +1,297 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{english}[2026/11/13 Kaoyan English (I) Exam Template]
+
+% ============================================================
+%  考研英语（一）真题专用宏包
+%  使用方法：\usepackage{english}
+%  必须使用 XeLaTeX 编译
+% ============================================================
+
+% -------------------- 依赖宏包 --------------------
+\RequirePackage{ifxetex}
+\RequireXeTeX
+\RequirePackage{xeCJK}
+\RequirePackage{fontspec}
+\RequirePackage{geometry}
+\RequirePackage{enumitem}
+\RequirePackage{tabularx}
+\RequirePackage{array}
+\RequirePackage{booktabs}
+\RequirePackage{fancyhdr}
+\RequirePackage{setspace}
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{etoolbox}
+\RequirePackage{needspace}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{comment}
+\RequirePackage{tikz}
+\RequirePackage[none]{hyphenat}
+\RequirePackage{needspace}
+\RequirePackage{microtype}
+
+
+\tolerance=2000
+\emergencystretch=1em
+
+
+
+% -------------------- 页面与字体 --------------------
+\geometry{
+  paperwidth=182mm,
+  paperheight=257mm,
+  left=18mm,
+  right=18mm,
+  top=20mm,
+  bottom=20mm   % 稍微小一点，给页码留空间
+}
+\setstretch{1.2}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.35em}
+
+\setCJKmainfont{Noto Serif CJK SC}[
+  UprightFont = * Light,          % 默认用细的
+  BoldFont    = * Bold,           % 加粗时用 Bold
+  % 如果觉得 Light 太细，可以改成 * Regular 或 * Medium
+]
+
+\setCJKsansfont{Noto Sans CJK SC}[
+  UprightFont = * Regular,
+  BoldFont    = * Bold
+]
+\setmainfont{Times New Roman}
+
+% 页眉页脚
+\pagestyle{fancy}
+\fancyhf{}                          % 清空所有页眉页脚
+\fancyfoot[C]{\thepage}             % 只在页脚中间放页码
+\renewcommand{\headrulewidth}{0pt}  % 去掉页眉横线
+\renewcommand{\footrulewidth}{0pt}  % 去掉页脚横线（可选）
+
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+% -------------------- 通用命令 --------------------
+\newcommand{\ky@section}[1]{%
+  % \par\vspace{1em}%
+  \begin{center}
+    {\large #1}
+  \end{center}
+  % \vspace{0.5em}%
+}
+\newcommand{\ky@part}[1]{%
+  % \par\vspace{0.4em}%
+  \noindent{\bfseries #1}\par
+  % \vspace{0.4em}%
+}
+\newcommand{\ky@directions}[1]{%
+  \noindent{\bfseries Directions:}\par
+  #1\par\vspace{0.55em}%
+}
+
+% 选项排版（两行两列）
+\newcommand{\options}[4]{%
+  \par\noindent
+    \noindent\hspace{1.5em}[A] #1\par
+    \noindent\hspace{1.5em}[B] #2\par
+    \noindent\hspace{1.5em}[C] #3\par
+    \noindent\hspace{1.5em}[D] #4\par
+  \vspace{0.45em}%
+}
+
+\newcommand{\qrcode}{
+  \begin{tikzpicture}
+    \node[rectangle,
+          draw=blue,            % 固定颜色
+          dashed,
+          line width=1pt,
+          rounded corners=5pt,
+          inner sep=10pt,
+          fill=blue!20,         % 固定背景色
+          minimum width=4cm,    % 固定宽度
+          minimum height=2cm]   % 固定高度
+    {};
+  \end{tikzpicture}
+}
+
+% ============================================================
+%  封面环境（参数只接收年份标题，其余全部写死）
+%  用法：\begin{coverpage}{2010年全国硕士研究生招生考试}
+%        \end{coverpage}
+% ============================================================
+\newenvironment{coverpage}[1]{%
+  \thispagestyle{empty}%
+  \noindent{\large 绝密$\bigstar$启用前}\par
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=north west] at (current page.north west) [xshift=2cm, yshift=-7cm]
+        {\qrcode};
+  \end{tikzpicture}
+  % \vspace{1em}
+  \begin{center}
+    {\Large #1}\\[0.8em]
+    \vspace{1em}
+    {\Huge\bfseries 英语（一）}\\[0.5em]
+    \vspace{1em}
+    {\large （科目代码：201）}\\[1.5em]
+    \vspace{1em}
+
+    {\large $\bigstar$考生注意事项$\bigstar$}
+  \end{center}
+  \vspace{0.7em}
+  \begin{enumerate}[
+    parsep=0pt,
+    topsep=0.4em
+  ]
+  \setstretch{1.7}
+  \small
+    \item 答题前，考生须在试题册指定位置上填写考生编号和考生姓名；在答题卡指定位置上填写报考单位、考生姓名和考生编号，并涂写考生编号信息点。
+    \item 考生须把试题册上的“试卷条形码”粘贴条取下，粘贴在答题卡的“试卷条形码粘贴位置”框中。不按规定粘贴条形码而影响评卷结果的，责任由考生自负。
+    \item 选择题的答案必须涂写在答题卡相应题号的选项上，非选择题的答案必须书写在答题卡指定位置的边框区域内。超出答题区域书写的答案无效；在草稿纸、试题册上答题无效。
+    \item 填（书）写部分必须使用黑色字迹签字笔书写，字迹工整、笔迹清楚；涂写部分必须使用2B铅笔填涂。
+    \item 考试结束，将答题卡和试题册按规定交回。
+  \end{enumerate}
+  \vspace{1.5em}
+  \begin{center}
+    （以下信息考生必须认真填写）
+  \end{center}
+  \vspace{0.5em}
+  \begin{center}
+    \begin{tabular}{|c|*{12}{c|}}
+      \hline
+      考生编号 & & & & & & & & & & & & \\
+      \hline
+      考生姓名 & & & & & & & & & & & & \\
+      \hline
+      \end{tabular}
+  \end{center}
+  \clearpage
+}{}
+
+% ============================================================
+%  完型填空
+% ============================================================
+\newcounter{ky@cloze}
+\newenvironment{cloze}[1]{%
+  \setcounter{page}{1}
+  \ky@section{Section I\quad Use of English}
+  \ky@directions{#1}
+  \setcounter{ky@cloze}{0}%
+  \setstretch{1.2}%
+}{\par\vspace{0.5em}\clearpage}
+
+\newcommand{\blank}{%
+  \stepcounter{ky@cloze}%
+  \underline{\makebox[2.1em][c]{\theky@cloze}}%
+}
+
+\newenvironment{clozeoptions}{%
+  \vspace{0.6em}%
+  \begin{enumerate}[label=\arabic*., leftmargin=1.9em, itemsep=0.4em, parsep=0pt]
+}{\end{enumerate}}
+
+\newcommand{\clozeitem}[4]{%
+  \item
+  \makebox[0.25\linewidth][l]{[A] #1}%
+  \makebox[0.25\linewidth][l]{[B] #2}%
+  \makebox[0.25\linewidth][l]{[C] #3}%
+  \makebox[0.25\linewidth][l]{[D] #4}%
+}
+% ============================================================
+%  阅读理解 Part A
+% ============================================================
+\newenvironment{reading}{%
+  \ky@section{Section II\quad Reading Comprehension}
+  \ky@part{Part A}
+  \ky@directions{Read the following four texts. Answer the questions below each text by choosing A, B, C or D. Mark your answers on ANSWER SHEET 1. (40 points)}%
+  \clearpage
+}
+
+
+\newcounter{ky@text}
+\newenvironment{examtext}{%
+  \begingroup
+  \stepcounter{ky@text}%
+
+  \small
+
+  % 段落间距
+  \setlength{\parskip}{0.2em}
+
+  % 首行缩进
+  \setlength{\parindent}{2em}
+
+  \par\vspace{1.1em}%
+  \noindent\hfill{\large\bfseries Text \theky@text}\hfill\null\par
+  \vspace{0.4em}%
+}{%
+  \par
+  \endgroup
+  \clearpage
+}
+
+
+\newcounter{ky@q}
+\newcommand{\resetqnum}[1]{\setcounter{ky@q}{#1}}
+
+\newcounter{ky@qgroup}
+\newcommand{\readingq}[5]{%
+  \stepcounter{ky@q}%
+  \stepcounter{ky@qgroup}% 
+  \par\noindent{\theky@q.} #1\par
+  \options{#2}{#3}{#4}{#5}%
+  \ifnum\value{ky@qgroup}=5
+    \clearpage
+    \setcounter{ky@qgroup}{0}%
+  \fi
+}
+
+% ============================================================
+%  Part B
+% ============================================================
+\newenvironment{partb}[1]{%
+  \ky@part{Part B}
+  \ky@directions{#1}%
+}{\par\vspace{0.8em}}
+
+% ============================================================
+%  翻译
+% ============================================================
+\newcounter{ky@trans}
+\newenvironment{translation}[1]{%
+  \ky@part{Part C}
+  \ky@directions{#1}%
+  \setcounter{ky@trans}{45}%
+}{}
+
+\newcommand{\trans}[1]{%
+  \stepcounter{ky@trans}%
+  \par\noindent\textbf{(\theky@trans)} #1\par\vspace{0.4em}%
+}
+
+% ============================================================
+%  写作
+% ============================================================
+\newenvironment{shortessay}[1]{%
+  \ky@section{Section III\quad Writing}
+  \ky@part{Part A}
+  \ky@directions{#1}%
+  \vspace{0.3em}%
+  \noindent\textit{You should write about 100 words on ANSWER SHEET 2.}\\
+  \noindent\textit{Do not sign your own name at the end of the notice. Use ``Postgraduates' Association'' instead. (10 points)}%
+  \par\vspace{1em}%
+}{}
+
+\newenvironment{longessay}[1]{%
+  \ky@part{Part B}
+  \ky@directions{#1}%
+  \vspace{0.3em}%
+  \noindent\textit{You should write neatly on ANSWER SHEET 2. (20 points)}%
+  \par\vspace{1em}%
+}{}
+
+\endinput
