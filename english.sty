@@ -46,7 +46,7 @@
   top=20mm,
   bottom=20mm   % 稍微小一点，给页码留空间
 }
-\setstretch{1.2}
+\setstretch{1.1}
 \setlength{\parindent}{2em}
 \setlength{\parskip}{0.35em}
 
@@ -213,11 +213,10 @@
 
 
 \newcounter{ky@text}
+
 \newenvironment{examtext}{%
   \begingroup
   \stepcounter{ky@text}%
-
-  \small
 
   % 段落间距
   \setlength{\parskip}{0.2em}
@@ -226,7 +225,13 @@
   \setlength{\parindent}{2em}
 
   \par\vspace{1.1em}%
-  \noindent\hfill{\large\bfseries Text \theky@text}\hfill\null\par
+
+  % 标题严格相对于正文宽度居中
+  \noindent
+  \makebox[\textwidth][c]{%
+    {\large\bfseries Text \theky@text}%
+  }\par
+
   \vspace{0.4em}%
 }{%
   \par
