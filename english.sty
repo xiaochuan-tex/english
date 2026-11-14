@@ -30,7 +30,7 @@
 \RequirePackage[none]{hyphenat}
 \RequirePackage{needspace}
 \RequirePackage{microtype}
-
+\RequirePackage[normalem]{ulem}
 
 \tolerance=2000
 \emergencystretch=1em
@@ -91,7 +91,7 @@
 }
 \newcommand{\ky@directions}[1]{%
   \noindent{\bfseries Directions:}\par
-  #1\par\vspace{0.55em}%
+  \noindent #1\par\vspace{0.55em}%
 }
 
 % 选项排版（两行两列）
@@ -117,6 +117,22 @@
           minimum height=2cm]   % 固定高度
     {};
   \end{tikzpicture}
+}
+
+\newcommand{\numberbox}[1]{%
+  \tikz[baseline=(n.base)]{
+    \node[
+      draw=black,
+      line width=0.5pt,
+      minimum width=1.2em,
+      minimum height=1.5em,
+      inner xsep=8pt,
+      inner ysep=2pt,
+      outer sep=0pt,
+      align=center,
+      font=\normalsize
+    ] (n) {#1};
+  }%
 }
 
 % ============================================================
@@ -261,7 +277,7 @@
 \newenvironment{partb}[1]{%
   \ky@part{Part B}
   \ky@directions{#1}%
-}{\par\vspace{0.8em}}
+}{\par\clearpage}
 
 % ============================================================
 %  翻译
@@ -275,7 +291,7 @@
 
 \newcommand{\trans}[1]{%
   \stepcounter{ky@trans}%
-  \par\noindent\textbf{(\theky@trans)} #1\par\vspace{0.4em}%
+  (\theky@trans) \uline{#1}
 }
 
 % ============================================================
@@ -284,18 +300,18 @@
 \newenvironment{shortessay}[1]{%
   \ky@section{Section III\quad Writing}
   \ky@part{Part A}
-  \ky@directions{#1}%
+  \noindent\textbf{51.} \ky@directions{#1}%
   \vspace{0.3em}%
-  \noindent\textit{You should write about 100 words on ANSWER SHEET 2.}\\
-  \noindent\textit{Do not sign your own name at the end of the notice. Use ``Postgraduates' Association'' instead. (10 points)}%
+  \noindent{You should write about 100 words on ANSWER SHEET 2.}\\
+  \noindent{\textbf{Do not} sign your own name at the end of the notice. Use ``Postgraduates' Association'' instead. (10 points)}%
   \par\vspace{1em}%
 }{}
 
 \newenvironment{longessay}[1]{%
   \ky@part{Part B}
-  \ky@directions{#1}%
-  \vspace{0.3em}%
-  \noindent\textit{You should write neatly on ANSWER SHEET 2. (20 points)}%
+  \noindent\textbf{52.}\ky@directions{#1}%
+  % \vspace{0.3em}%
+  \noindent You should write neatly on ANSWER SHEET 2. (20 points)%
   \par\vspace{1em}%
 }{}
 
