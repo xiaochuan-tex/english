@@ -44,7 +44,8 @@ jobs:
           sudo apt-get install -y \
             ttf-mscorefonts-installer \
             fonts-noto-cjk \
-            fontconfig
+            fontconfig  \
+            fonts-noto-cjk-extra
 
           fc-cache -fv
 
