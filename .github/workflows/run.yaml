@@ -35,34 +35,34 @@ jobs:
           cd /mnt/texlive2025
           sudo ./install-tl --scheme=full --no-interaction
 
-      # - name: Install fonts
-      #   if: steps.cache-fonts.outputs.cache-hit != 'true'
-      #   run: |
-      #     echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" \
-      #       | sudo debconf-set-selections
+      - name: Install fonts
+        if: steps.cache-fonts.outputs.cache-hit != 'true'
+        run: |
+          echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" \
+            | sudo debconf-set-selections
 
-      #     sudo apt-get install -y \
-      #       ttf-mscorefonts-installer \
-      #       fonts-noto-cjk \
-      #       fontconfig
+          sudo apt-get install -y \
+            ttf-mscorefonts-installer \
+            fonts-noto-cjk \
+            fontconfig
 
-      #     fc-cache -fv
+          fc-cache -fv
 
-      # - name: Verify font installation
-      #   run: |
-      #     fc-match "Times New Roman"
-      #     fc-match "Times New Roman:style=Bold"
-      #     fc-match "Noto Serif CJK SC"
-      #     fc-match "Noto Sans CJK SC"
+      - name: Verify font installation
+        run: |
+          fc-match "Times New Roman"
+          fc-match "Times New Roman:style=Bold"
+          fc-match "Noto Serif CJK SC"
+          fc-match "Noto Sans CJK SC"
 
-      # - name: Compile LaTeX
-      #   run: |
-      #     export PATH=$PATH:/usr/local/texlive/2025/bin/x86_64-linux
-      #     latexmk -xelatex -quiet -time main.tex
+      - name: Compile LaTeX
+        run: |
+          export PATH=$PATH:/usr/local/texlive/2025/bin/x86_64-linux
+          latexmk -xelatex -quiet -time main.tex
 
-      # - name: Upload PDF
-      #   uses: actions/upload-artifact@v6
-      #   with:
-      #     name: ${{ matrix.project.ename }}
-      #     path: ./*.pdf
-      #     retention-days: 2
+      - name: Upload PDF
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ matrix.project.ename }}
+          path: ./*.pdf
+          retention-days: 2
