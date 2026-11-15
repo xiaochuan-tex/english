@@ -59,7 +59,7 @@ jobs:
       - name: Compile LaTeX
         run: |
           export PATH=$PATH:/usr/local/texlive/2025/bin/x86_64-linux
-          latexmk -xelatex -quiet -time main.tex
+          latexmk -xelatex -quiet -time 2024_main.tex
 
       - name: Upload PDF
         uses: actions/upload-artifact@v6
